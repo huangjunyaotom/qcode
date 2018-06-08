@@ -1,0 +1,40 @@
+需要准备
+阿里云服务器一台
+linux 环境,安装node,mysql以及依赖的包 mysql,express,body-parser,cookie-parser ,multer,UUID 
+1.扫描二维码,直接访问 请求页面+二维码的id
+	1.1查询mysql的记录,如果没有这个id,则表示不是我们的,转到提示页面
+	1.2查询mysql的记录,如果有这个id,但是没有对应的文件地址(没有保存过),转到上传页面
+	1.3查询mysql的记录,如果有这个id和对应的文件,则转到展示页面
+2.每日清理7天以前保存的文件
+
+
+2.后台,简单的登录页面,固定的登录名和密码
+	1.指定生成多少个UUID,并导出客户端的页面地址+UUID,生成Excel
+
+
+node 包安装
+
+npm install express --save  express框架
+npm install body-parser --save  node.js 中间件，用于处理 JSON, Raw, Text 和 URL 编码的数据。
+npm install cookie-parser --save 这就是一个解析Cookie的工具。通过req.cookies可以取到传过来的cookie，并把它们转成对象。
+npm install multer --save  node.js 中间件，用于处理 enctype="multipart/form-data"（设置表单的MIME编码）的表单数据。
+npm install uuid --save uuid生成工具
+npm install mysql --save  mysql操作包
+
+
+mysql
+地址 localhost ,port 3306
+用户名root 密码 
+数据库 qcode
+
+表
+编号记录表 no_record
+id,no(uuid),type(文件类型)
+
+
+
+server.js
+page
+	unload
+	show
+	admin
