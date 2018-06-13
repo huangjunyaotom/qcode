@@ -1,4 +1,4 @@
-package qcode;
+package action;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -58,9 +58,6 @@ public class QcodeAction extends ActionSupport {
 				
 				
 			}
-		}else{
-			//不是我们的条码
-			return "none";
 		}
 		
 		}catch(Exception e){
