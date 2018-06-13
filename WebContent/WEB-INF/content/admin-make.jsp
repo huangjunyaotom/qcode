@@ -7,6 +7,6 @@
 <title>偏偏爱上牛皮纸</title>
 </head>
 <body>
-登录页面
+生成二维码编号页面,带导出
 </body>
 </html>

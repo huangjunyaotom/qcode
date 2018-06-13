@@ -11,7 +11,10 @@
     <constant name="struts.convention.classes.reload" value="true"/>
 
     
-
-    <!-- Add packages here -->
-
+<!-- <package name="huang" extends="struts-default"> -->
+<!-- 	<action name="admin" class="action.AdminAction"> -->
+<!-- 		<result name="wrong">/admin.jsp</result> -->
+<!-- 	</action> -->
+<!-- </package> -->
+    
 </struts>
