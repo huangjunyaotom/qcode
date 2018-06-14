@@ -57,7 +57,7 @@ public class UploadAction extends ActionSupport{
 	@Override
 	public String execute() throws Exception {
 		setSavePath("/uploadFile");
-		FileOutputStream os=new FileOutputStream(getSavePath()+File.separator+getUuid()+getUploadFileName().split("\\.")[1]);
+		FileOutputStream os=new FileOutputStream(getSavePath()+File.separator+getUuid()+"."+getUploadFileName().split("\\.")[1]);
 		
 		
 		FileInputStream is=new FileInputStream(getUpload());
