@@ -2,11 +2,14 @@ package entity;
 
 import java.sql.Timestamp;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 @Entity
 @Table(name="table_code_id")
 public class Qcode {
@@ -18,8 +21,13 @@ public class Qcode {
 	
 	private Boolean is_printed;
 	private String file_path;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Timestamp create_time;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Timestamp use_time;
+	public Qcode() {
+		
+	}
 	public Integer getId() {
 		return id;
 	}

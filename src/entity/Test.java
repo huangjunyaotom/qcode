@@ -19,9 +19,9 @@ public class Test {
 		
 		Session sess=sf.openSession();
 		Transaction tx=sess.beginTransaction();
-		Qcode q=new Qcode();
-		q.setCode_no("888");
-		sess.save(q);
+		Qcode q=sess.get(Qcode.class, 5);
+		sess.delete(q);;
+	
 		tx.commit();
 		sess.close();
 		sf.close();

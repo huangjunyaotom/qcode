@@ -32,37 +32,35 @@ public class QcodeAction extends ActionSupport {
 	}
 	@Override
 	public String execute() {
-		
-		
 		try {
 			
-		Class.forName(driver);
-		Connection conn=DriverManager.getConnection(url,user,password);
-		Statement stmt=conn.createStatement();
-		ResultSet rs=stmt.executeQuery("select * from table_code_id where code_no = "+uuid);
-		
-		if(rs.next()){
-			path=rs.getString("file_path");
+			Class.forName(driver);
+			Connection conn=DriverManager.getConnection(url,user,password);
+			Statement stmt=conn.createStatement();
+			ResultSet rs=stmt.executeQuery("select * from table_code_id where code_no = "+uuid);
 			
-			if(path != null){
-				//转发到展示页面
+			if(rs.next()){
+				path=rs.getString("file_path");
 				
-			
-				return "show";
+				if(path != null){
+					//转发到展示页面
+					
 				
-			}else{
-				//转发到上传页面
-//				System.out.println("upfile");
-				return "upfile";
-				
-				
+					return "show";
+					
+				}else{
+					//转发到上传页面
+//					System.out.println("upfile");
+					return "upfile";
+					
+					
+				}
 			}
-		}
-		
-		}catch(Exception e){
-			System.out.println(e);
-		}
-		return "none";
+			
+			}catch(Exception e){
+				System.out.println(e);
+			}
+			return "none";
 		
 	}
 }
