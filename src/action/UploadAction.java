@@ -14,6 +14,14 @@ public class UploadAction extends ActionSupport{
 	private String uploadContentType;
 	private String uploadFileName;
 	private String savePath;
+	private String uuid;
+	
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -49,7 +57,9 @@ public class UploadAction extends ActionSupport{
 	@Override
 	public String execute() throws Exception {
 		setSavePath("/uploadFile");
-		FileOutputStream os=new FileOutputStream(getSavePath()+"\\"+getUploadFileName());
+		FileOutputStream os=new FileOutputStream(getSavePath()+File.separator+getUuid()+getUploadFileName().split("\\.")[1]);
+		
+		
 		FileInputStream is=new FileInputStream(getUpload());
 		byte[] buffer=new byte[1024];
 		int len=0;
