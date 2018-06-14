@@ -21,9 +21,9 @@ public class Qcode {
 	
 	private Boolean is_printed;
 	private String file_path;
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	private Timestamp create_time;
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	private Timestamp use_time;
 	public Qcode() {
 		

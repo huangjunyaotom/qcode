@@ -5,8 +5,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import org.apache.struts2.ServletActionContext;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.service.ServiceRegistry;
 
 import com.opensymphony.xwork2.ActionSupport;
+
+import entity.Qcode;
 
 public class UploadAction extends ActionSupport{
 	private String title;
@@ -57,7 +65,8 @@ public class UploadAction extends ActionSupport{
 	@Override
 	public String execute() throws Exception {
 		setSavePath("/uploadFile");
-		FileOutputStream os=new FileOutputStream(getSavePath()+File.separator+getUuid()+"."+getUploadFileName().split("\\.")[1]);
+		String realPath=getSavePath()+File.separator+getUuid()+"."+getUploadFileName().split("\\.")[1];
+		FileOutputStream os=new FileOutputStream(realPath);
 		
 		
 		FileInputStream is=new FileInputStream(getUpload());
@@ -66,6 +75,23 @@ public class UploadAction extends ActionSupport{
 		while((len=is.read(buffer))>0) {
 			os.write(buffer, 0, len);
 		}
+		ServiceRegistry serviceRegistry=new StandardServiceRegistryBuilder().configure().build();
+		SessionFactory sf=new MetadataSources(serviceRegistry).buildMetadata().buildSessionFactory();
+		
+		Session sess=sf.openSession();
+		Transaction tx=sess.beginTransaction();
+		
+		String hql=" update Qcode q set file_path = :path where q.code_no= :uuid";
+		sess.createQuery(hql)
+		.setParameter("path", realPath)
+		.setParameter("uuid", uuid)
+		.executeUpdate();
+		
+		tx.commit();
+		sess.close();
+		sf.close();
+		
+		
 		return SUCCESS;
 	}
 

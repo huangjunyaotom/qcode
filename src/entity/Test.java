@@ -19,9 +19,9 @@ public class Test {
 		
 		Session sess=sf.openSession();
 		Transaction tx=sess.beginTransaction();
-		Qcode q=sess.get(Qcode.class, 5);
-		sess.delete(q);;
-	
+		
+		String hql=" delete Qcode q where q.id > 10";
+		sess.createQuery(hql).executeUpdate();
 		tx.commit();
 		sess.close();
 		sf.close();

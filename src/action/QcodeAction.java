@@ -5,14 +5,20 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.service.ServiceRegistry;
+
 import com.opensymphony.xwork2.ActionSupport;
+
+import entity.Qcode;
 
 public class QcodeAction extends ActionSupport {
 	private String uuid;
-	private String driver="com.mysql.jdbc.Driver";
-	private String url="jdbc:mysql://localhost:3306/qcode?useSSL=false";
-	private String user="root";
-	private String password="";
+	
 	private String path;
 	
 	public String getPath() {
@@ -32,17 +38,19 @@ public class QcodeAction extends ActionSupport {
 	}
 	@Override
 	public String execute() {
-		try {
+		ServiceRegistry serviceRegistry=new StandardServiceRegistryBuilder().configure().build();
+		SessionFactory sf=new MetadataSources(serviceRegistry).buildMetadata().buildSessionFactory();
+		
+		Session sess=sf.openSession();
+		Transaction tx=sess.beginTransaction();
+		
+		String hql="from Qcode q where q.code_no = :uuid ";
+		Qcode q=(Qcode)sess.createQuery(hql).setParameter("uuid", uuid).uniqueResult();
 			
-			Class.forName(driver);
-			Connection conn=DriverManager.getConnection(url,user,password);
-			Statement stmt=conn.createStatement();
-			ResultSet rs=stmt.executeQuery("select * from table_code_id where code_no = "+uuid);
-			
-			if(rs.next()){
-				path=rs.getString("file_path");
+			if(q!=null){
+				path=q.getFile_path();
 				
-				if(path != null){
+				if(path != null && !path.equals("")){
 					//转发到展示页面
 					
 				
@@ -56,10 +64,10 @@ public class QcodeAction extends ActionSupport {
 					
 				}
 			}
+			tx.commit();
+			sess.close();
+			sf.close();
 			
-			}catch(Exception e){
-				System.out.println(e);
-			}
 			return "none";
 		
 	}
