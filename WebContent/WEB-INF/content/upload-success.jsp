@@ -7,10 +7,6 @@
 <title>偏偏爱上牛皮纸</title>
 </head>
 <body>
-<form method="post" action="<%=request.getContextPath() %>/upload" enctype="multipart/form-data">
-<input type="file" name="codeFile"/>
-<input type="hidden" name="uuid"  value=<%=request.getParameter("uuid") %> />
-<input type="submit" value="上传"/>
-</form>
+上传成功
 </body>
 </html>

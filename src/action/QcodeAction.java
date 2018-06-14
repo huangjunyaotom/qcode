@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class QcodeAction extends ActionSupport {
@@ -31,10 +30,10 @@ public class QcodeAction extends ActionSupport {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
-
+	@Override
 	public String execute() {
 		
-		uuid=getUuid();
+		
 		try {
 			
 		Class.forName(driver);

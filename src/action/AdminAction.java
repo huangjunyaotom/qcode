@@ -25,6 +25,7 @@ public class AdminAction extends ActionSupport {
 		this.tip = tip;
 	}
 	
+	@Override
 	public String execute() {
 		if(getUsername() == null ||getPassword()==null ) {
 			return "wrong";
