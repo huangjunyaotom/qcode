@@ -1,11 +1,16 @@
 package action;
 
+import javax.annotation.Resource;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -16,6 +21,15 @@ public class QcodeAction extends ActionSupport {
 	
 	private String path;
 	
+	
+	private SessionFactory sessionFactory;
+	
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 	public String getPath() {
 		return path;
 	}
@@ -33,10 +47,9 @@ public class QcodeAction extends ActionSupport {
 	}
 	@Override
 	public String execute() {
-		ServiceRegistry serviceRegistry=new StandardServiceRegistryBuilder().configure().build();
-		SessionFactory sf=new MetadataSources(serviceRegistry).buildMetadata().buildSessionFactory();
+		sessionFactory=new ClassPathXmlApplicationContext("classpath:applicationContext.xml").getBean("sessionFactory",SessionFactory.class);;
 		
-		Session sess=sf.openSession();
+		Session sess=sessionFactory.openSession();
 		Transaction tx=sess.beginTransaction();
 		
 		String hql="from Qcode q where q.code_no = :uuid ";
@@ -61,7 +74,7 @@ public class QcodeAction extends ActionSupport {
 			}
 			tx.commit();
 			sess.close();
-			sf.close();
+			sessionFactory.close();
 			
 			return "none";
 		

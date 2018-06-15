@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import javax.annotation.Resource;
+
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -11,6 +13,9 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -22,6 +27,15 @@ public class UploadAction extends ActionSupport{
 	private String savePath;
 	private String uuid;
 	
+	
+	private SessionFactory sessionFactory;
+	
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 	public String getUuid() {
 		return uuid;
 	}
@@ -73,10 +87,9 @@ public class UploadAction extends ActionSupport{
 		while((len=is.read(buffer))>0) {
 			os.write(buffer, 0, len);
 		}
-		ServiceRegistry serviceRegistry=new StandardServiceRegistryBuilder().configure().build();
-		SessionFactory sf=new MetadataSources(serviceRegistry).buildMetadata().buildSessionFactory();
+		sessionFactory=new ClassPathXmlApplicationContext("classpath:applicationContext.xml").getBean("sessionFactory",SessionFactory.class);;
 		
-		Session sess=sf.openSession();
+		Session sess=sessionFactory.openSession();
 		Transaction tx=sess.beginTransaction();
 		
 		String hql=" update Qcode q set file_path = :path where q.code_no= :uuid";
@@ -87,7 +100,7 @@ public class UploadAction extends ActionSupport{
 		
 		tx.commit();
 		sess.close();
-		sf.close();
+		sessionFactory.close();
 		
 		
 		return SUCCESS;

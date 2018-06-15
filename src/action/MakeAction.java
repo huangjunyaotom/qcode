@@ -2,12 +2,17 @@ package action;
 
 import java.util.UUID;
 
+import javax.annotation.Resource;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Component;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -15,7 +20,16 @@ import entity.Qcode;
 
 public class MakeAction extends ActionSupport{
 	private Integer num;
-
+	
+	
+	private SessionFactory sessionFactory;
+	
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 	public Integer getNum() {
 		return num;
 	}
@@ -25,10 +39,10 @@ public class MakeAction extends ActionSupport{
 	}
 	
 	public String execute() {
-		ServiceRegistry serviceRegistry=new StandardServiceRegistryBuilder().configure().build();
-		SessionFactory sf=new MetadataSources(serviceRegistry).buildMetadata().buildSessionFactory();
 		
-		Session sess=sf.openSession();
+		sessionFactory=new ClassPathXmlApplicationContext("classpath:applicationContext.xml").getBean("sessionFactory",SessionFactory.class);;
+		
+		Session sess=sessionFactory.openSession();
 		Transaction tx=sess.beginTransaction();
 		
 		for(int i=0;i<num;i++) {
@@ -44,7 +58,7 @@ public class MakeAction extends ActionSupport{
 		
 		tx.commit();
 		sess.close();
-		sf.close();
+		sessionFactory.close();
 		return SUCCESS;
 	}
 	
