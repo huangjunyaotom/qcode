@@ -14,8 +14,6 @@ import org.hibernate.service.ServiceRegistry;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import entity.Qcode;
-
 public class UploadAction extends ActionSupport{
 	private String title;
 	private File upload;

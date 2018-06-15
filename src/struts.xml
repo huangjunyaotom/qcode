@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE struts PUBLIC
-	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
-	"http://struts.apache.org/dtds/struts-2.3.dtd">
+	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+	"http://struts.apache.org/dtds/struts-2.5.dtd">
 
 <struts>
 
@@ -11,7 +11,7 @@
     <constant name="struts.convention.classes.reload" value="true"/>
 
     
-<!-- <package name="huang" extends="struts-default"> -->
+<!-- <package name="huang" extends="struts-default" namespace="/"> -->
 <!-- 	<action name="admin" class="action.AdminAction"> -->
 <!-- 		<result name="wrong">/admin.jsp</result> -->
 <!-- 	</action> -->
