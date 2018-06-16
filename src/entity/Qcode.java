@@ -22,7 +22,6 @@ public class Qcode {
 	private Boolean is_printed;
 	private String file_path;
 	
-	private Timestamp create_time;
 	
 	private Timestamp use_time;
 	public Qcode() {
@@ -52,12 +51,7 @@ public class Qcode {
 	public void setFile_path(String file_path) {
 		this.file_path = file_path;
 	}
-	public Timestamp getCreate_time() {
-		return create_time;
-	}
-	public void setCreate_time(Timestamp create_time) {
-		this.create_time = create_time;
-	}
+	
 	public Timestamp getUse_time() {
 		return use_time;
 	}

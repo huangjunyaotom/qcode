@@ -1,19 +1,11 @@
 package action;
 
-import javax.annotation.Resource;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.service.ServiceRegistry;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Component;
-
 import com.opensymphony.xwork2.ActionSupport;
 
+import dao.QcodeDao;
 import entity.Qcode;
 
 public class QcodeAction extends ActionSupport {
@@ -22,14 +14,20 @@ public class QcodeAction extends ActionSupport {
 	private String path;
 	
 	
-	private SessionFactory sessionFactory;
+	private QcodeDao qcodeDao;
 	
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
+	public QcodeAction() {
+		
 	}
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
+	
+	public QcodeDao getQcodeDao() {
+		return qcodeDao;
 	}
+
+	public void setQcodeDao(QcodeDao qcodeDao) {
+		this.qcodeDao = qcodeDao;
+	}
+
 	public String getPath() {
 		return path;
 	}
@@ -47,13 +45,11 @@ public class QcodeAction extends ActionSupport {
 	}
 	@Override
 	public String execute() {
-		sessionFactory=new ClassPathXmlApplicationContext("classpath:applicationContext.xml").getBean("sessionFactory",SessionFactory.class);;
+//		Session sess=qcodeDao.getSession();
+//		Transaction tx=sess.beginTransaction();
 		
-		Session sess=sessionFactory.openSession();
-		Transaction tx=sess.beginTransaction();
 		
-		String hql="from Qcode q where q.code_no = :uuid ";
-		Qcode q=(Qcode)sess.createQuery(hql).setParameter("uuid", uuid).uniqueResult();
+		Qcode q=qcodeDao.getByUuid(uuid);
 			
 			if(q!=null){
 				path=q.getFile_path();
@@ -72,10 +68,9 @@ public class QcodeAction extends ActionSupport {
 					
 				}
 			}
-			tx.commit();
-			sess.close();
-			sessionFactory.close();
 			
+//			tx.commit();
+//			sess.close();
 			return "none";
 		
 	}
