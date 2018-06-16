@@ -11,10 +11,39 @@
     <constant name="struts.convention.classes.reload" value="true"/>
 
     
-<!-- <package name="huang" extends="struts-default" namespace="/"> -->
-<!-- 	<action name="admin" class="action.AdminAction"> -->
-<!-- 		<result name="wrong">/admin.jsp</result> -->
-<!-- 	</action> -->
-<!-- </package> -->
+<package name="huang" extends="struts-default">
+	<action name="admin" class="action.AdminAction">
+		<result name="wrong">/WEB-INF/content/admin-wrong.jsp</result>
+		<result name="make">/WEB-INF/content/admin-make.jsp</result>
+	</action>
+	
+	<action name="make" class="action.MakeAction">
+		<result name="success">/WEB-INF/content/make-success.jsp</result>
+	</action>
+	
+	<action name="qcode" class="action.QcodeAction">
+		<result name="show">/WEB-INF/content/qcode-show.jsp</result>
+		<result name="upfile">/WEB-INF/content/qcode-upfile.jsp</result>
+		<result name="none">/WEB-INF/content/qcode-none.jsp</result>
+	</action>
+	
+	<action name="upload" class="action.UploadAction">
+		<result name="success">/WEB-INF/content/upload-success.jsp</result>
+		
+	</action>
+	<action name="download" class="action.DownloadAction">
+		<param name="serverAddress">http://127.0.0.1:8080/qcode/qcode?uuid=</param>
+		<result name="success" type="stream">
+			<!-- 获取文件流的方法 -->
+			<param name="inputName">excelStream</param>
+			<!-- 缓冲区大小 -->
+			<param name="contentDisposition">filename=${excelFileName}</param>
+			<param name="bufferSize">4096</param>
+			<!-- 指定文件类型 -->
+			<param name="contentType">application/vnd.ms-excel</param>
+		</result>
+	</action>
+	
+</package>
     
 </struts>

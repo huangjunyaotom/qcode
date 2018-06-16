@@ -1,5 +1,7 @@
 package action;
 
+import java.io.File;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -56,7 +58,8 @@ public class QcodeAction extends ActionSupport {
 				
 				if(path != null && !path.equals("")){
 					//转发到展示页面
-					
+					File file=new File(path);
+					path=file.getName();
 				
 					return "show";
 					

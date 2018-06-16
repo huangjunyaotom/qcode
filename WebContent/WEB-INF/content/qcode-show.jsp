@@ -1,12 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html5>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>偏偏爱上牛皮纸</title>
 </head>
 <body>
-文件在<%=request.getAttribute("path") %>
+<%
+   
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+
+                request.getServerPort()+request.getContextPath()+"/";
+String file_path=basePath+"uploadFile/"+request.getAttribute("path");
+%>
+<audio src="<%=file_path%>" controls="controls">
+</audio>
+
 </body>
 </html>

@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
@@ -13,25 +15,12 @@ public class QcodeDaoImpl  implements QcodeDao {
 	
 	private SessionFactory sessionFactory;
 	
-
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
+	
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
 
-//	public Session getSession() {
-//		// TODO Auto-generated method stub
-////		ApplicationContext ctx=new ClassPathXmlApplicationContext("classpath:ApplicationContext.xml");
-////        SessionFactory sessionFactory = (SessionFactory)ctx.getBean("sessionFactory");
-////		Session session=getSessionFactory().getCurrentSession();
-////		if(session==null) {
-////			session=getSessionFactory().openSession();
-////		}
-//		return getSessionFactory().getCurrentSession();
-//	}
+
 
 	@Override
 	@Transactional(readOnly=true)
@@ -64,10 +53,30 @@ public class QcodeDaoImpl  implements QcodeDao {
 		this.sessionFactory.getCurrentSession().save(q);
 	}
 
+
+
 	@Override
-	public Session getSession() {
+	@Transactional
+	public List<Qcode> getUnPrinted() {
 		// TODO Auto-generated method stub
-		return this.sessionFactory.getCurrentSession();
+		return this.sessionFactory.getCurrentSession()
+				.createQuery("from Qcode where is_printed = '0' ")
+				.list();
 	}
+
+
+
+	@Override
+	@Transactional
+	public void update(Qcode q) {
+		// TODO Auto-generated method stub
+		this.sessionFactory.getCurrentSession().update(q);
+		
+	}
+
+	
+
+	
+	
 
 }

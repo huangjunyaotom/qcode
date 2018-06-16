@@ -3,6 +3,7 @@ package action;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.sql.Timestamp;
 
 import org.apache.struts2.ServletActionContext;
 import org.hibernate.Session;
@@ -65,6 +66,7 @@ public class UploadAction extends ActionSupport{
 		this.uploadFileName = uploadFileName;
 	}
 	public String getSavePath() throws Exception {
+		
 		return ServletActionContext.getServletContext().getRealPath(savePath);
 	}
 	public void setSavePath(String savePath) {
@@ -75,6 +77,8 @@ public class UploadAction extends ActionSupport{
 	public String execute() throws Exception {
 		setSavePath("/uploadFile");
 		String realPath=getSavePath()+File.separator+getUuid()+"."+getUploadFileName().split("\\.")[1];
+		
+		
 		FileOutputStream os=new FileOutputStream(realPath);
 		
 		
@@ -85,16 +89,18 @@ public class UploadAction extends ActionSupport{
 			os.write(buffer, 0, len);
 		}
 		
-		Session sess=qcodeDao.getSession();
-		Transaction tx=sess.beginTransaction();
+//		Session sess=qcodeDao.getSession();
+//		Transaction tx=sess.beginTransaction();
 		
-		String hql=" update Qcode q set file_path = :path where q.code_no= :uuid";
+		
 		Qcode q= qcodeDao.getByUuid(uuid);
+		Timestamp d = new Timestamp(System.currentTimeMillis()); 
 		q.setFile_path(realPath);
+		q.setUse_time(d);
 		qcodeDao.updateFilePathByUuid(q);
 		
-		tx.commit();
-		sess.close();
+//		tx.commit();
+//		sess.close();
 		
 		
 		

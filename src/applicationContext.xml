@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd    
      	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">   
      
-		
+<!-- 配置连接池 -->		
 <bean id="dataSource"    
         class="com.mchange.v2.c3p0.ComboPooledDataSource"    
         destroy-method="close">    
@@ -84,7 +84,7 @@
             <value>false</value>    
         </property>    
 </bean>      
-
+<!-- 配置hibernate sessionfactory -->
 <bean id="sessionFactory"    
         class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">    
         <property name="dataSource" ref="dataSource"/>    
@@ -98,44 +98,36 @@
         <property name="hibernateProperties">    
             <props>    
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>    
-                <prop key="hibernate.show_sql">true</prop>    
+                 
                 <prop key="hibernate.hbm2ddl.auto">update</prop>    
-                <prop key="hibernate.format_sql">true</prop>    
+                <prop key="hibernate.format_sql">false</prop>   
+                <prop key="hibernate.show_sql">false</prop>    
                    
             </props>    
         </property>    
 </bean>    
+<!-- 配置事务,不然getCurrentSession会失败 -->	
 	<bean id="transactionManager"
             class="org.springframework.orm.hibernate5.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 <tx:annotation-driven/>
 
-<!-- <tx:advice id="txAdvice" transaction-manager="transactionManager"> -->
-<!-- 	<tx:attributes> -->
-<!-- 		<tx:method name="get*" read-only="true"/> -->
-<!-- 		<tx:method name="*"/> -->
-<!-- 	</tx:attributes> -->
-<!-- </tx:advice> -->
 
-<!-- <aop:config> -->
-<!-- 	<aop:pointcut id="leePoint" expression="execution(dao.qcodeDao)"/> -->
-<!-- 	<aop:advisor advice-ref="txAdvice" pointcut-ref="leePoint" /> -->
-	
-<!-- </aop:config> -->
+<!-- 配置bean -->
 <bean id="qcodeDao" class="dao.QcodeDaoImpl">
 	<property name="sessionFactory" ref="sessionFactory" />
 </bean>
 
 
-<bean id="qcode" class="action.QcodeAction">
+<bean id="qcodeAction" class="action.QcodeAction">
 	<property name="qcodeDao" ref="qcodeDao" />
 	
 </bean>
-<bean id="make" class="action.MakeAction">
+<bean id="makeAction" class="action.MakeAction">
 	<property name="qcodeDao" ref="qcodeDao" />
 </bean>
-<bean id="upload" class="action.UploadAction">
+<bean id="uploadAction" class="action.UploadAction">
 	<property name="qcodeDao" ref="qcodeDao" />
 </bean>
 

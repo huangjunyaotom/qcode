@@ -2,7 +2,7 @@ package entity;
 
 import java.sql.Timestamp;
 
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +19,7 @@ public class Qcode {
 	private String code_no;
 	
 	
-	private Boolean is_printed;
+	private Integer is_printed;
 	private String file_path;
 	
 	
@@ -39,10 +39,12 @@ public class Qcode {
 	public void setCode_no(String code_no) {
 		this.code_no = code_no;
 	}
-	public Boolean getIs_printed() {
+	
+	
+	public Integer getIs_printed() {
 		return is_printed;
 	}
-	public void setIs_printed(Boolean is_printed) {
+	public void setIs_printed(Integer is_printed) {
 		this.is_printed = is_printed;
 	}
 	public String getFile_path() {

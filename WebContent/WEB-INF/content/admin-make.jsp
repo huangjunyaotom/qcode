@@ -7,6 +7,11 @@
 <title>偏偏爱上牛皮纸</title>
 </head>
 <body>
-生成二维码编号页面,带导出
+<form method="post" action="<%=request.getContextPath() %>/make">
+输入数量:<input name="num" />
+<input type="submit" value="生成"/>
+</form>
+<hr/>
+
 </body>
 </html>
