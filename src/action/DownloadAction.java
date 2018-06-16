@@ -3,6 +3,7 @@ package action;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.util.List;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -17,18 +18,22 @@ import entity.Qcode;
 
 public class DownloadAction extends ActionSupport {
 	private QcodeDao qcodeDao;
-	private String serverAddress;
+	private String portAndIndex;
 	public QcodeDao getQcodeDao() {
 		return qcodeDao;
 	}
 
-	public String getServerAddress() {
-		return serverAddress;
+	
+
+	public String getPortAndIndex() {
+		return portAndIndex;
 	}
 
-	public void setServerAddress(String serverAddress) {
-		this.serverAddress = serverAddress;
+	public void setPortAndIndex(String portAndIndex) {
+		this.portAndIndex = portAndIndex;
 	}
+
+	
 
 	public void setQcodeDao(QcodeDao qcodeDao) {
 		this.qcodeDao = qcodeDao;
@@ -68,13 +73,15 @@ public class DownloadAction extends ActionSupport {
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet=workbook.createSheet();
 		int i=0;
-		
+		//ªÒ»°ip
+		InetAddress addr=InetAddress.getLocalHost();
+		String ip=addr.getHostAddress().toString();
 		
 		for(Qcode q:qcodes) {
 			
 			XSSFRow row = sheet.createRow(i);
 			XSSFCell cell = row.createCell(0);
-			cell.setCellValue(serverAddress+q.getCode_no());
+			cell.setCellValue("http://"+ip+portAndIndex+q.getCode_no());
 			i++;
 		}
 		

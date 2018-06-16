@@ -32,7 +32,7 @@
 		
 	</action>
 	<action name="download" class="action.DownloadAction">
-		<param name="serverAddress">http://127.0.0.1:8080/qcode/qcode?uuid=</param>
+		<param name="portAndIndex">:8080/qcode/qcode?uuid=</param>
 		<result name="success" type="stream">
 			<!-- 获取文件流的方法 -->
 			<param name="inputName">excelStream</param>

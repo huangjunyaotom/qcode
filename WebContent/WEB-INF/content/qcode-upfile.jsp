@@ -1,16 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%@ include file="common/common-head.jsp" %>
 <title>偏偏爱上牛皮纸</title>
 </head>
 <body>
-<form method="post" action="<%=request.getContextPath() %>/upload" enctype="multipart/form-data">
-<input type="file" name="upload"/>
-<input type="hidden" name="uuid"  value=<%=request.getParameter("uuid") %> />
-<input type="submit" value="上传"/>
-</form>
+<div data-role="page">
+	<div data-role="main" class="ui-content">
+	
+		<form method="post" action="<%=request.getContextPath() %>/upload" enctype="multipart/form-data">
+		<label for="upload">选择文件</label><input type="file" name="upload"/>
+		
+		<label for="uuid" class="ui-hidden-accessible">uuid</label><input type="hidden" name="uuid"  value=<%=request.getParameter("uuid") %> />
+		<input type="submit" value="上传"/>
+		</form>
+	</div>
+</div>
+
+
 </body>
 </html>
