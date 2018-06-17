@@ -75,7 +75,7 @@ public class UploadAction extends ActionSupport{
 	
 	@Override
 	public String execute() throws Exception {
-		setSavePath("/uploadFile");
+		
 		String realPath=getSavePath()+File.separator+getUuid()+"."+getUploadFileName().split("\\.")[1];
 		
 		
@@ -89,8 +89,7 @@ public class UploadAction extends ActionSupport{
 			os.write(buffer, 0, len);
 		}
 		
-//		Session sess=qcodeDao.getSession();
-//		Transaction tx=sess.beginTransaction();
+
 		
 		
 		Qcode q= qcodeDao.getByUuid(uuid);
@@ -99,10 +98,7 @@ public class UploadAction extends ActionSupport{
 		q.setUse_time(d);
 		qcodeDao.updateFilePathByUuid(q);
 		
-//		tx.commit();
-//		sess.close();
-		
-		
+
 		
 		return SUCCESS;
 	}

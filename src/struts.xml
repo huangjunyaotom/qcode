@@ -9,7 +9,7 @@
     <constant name="struts.enable.DynamicMethodInvocation" value="false" />
     <constant name="struts.devMode" value="true" />
     <constant name="struts.convention.classes.reload" value="true"/>
-
+	<constant name="struts.multipart.maxSize" value="5242880" />
     
 <package name="huang" extends="struts-default">
 	<action name="admin" class="action.AdminAction">
@@ -28,6 +28,14 @@
 	</action>
 	
 	<action name="upload" class="action.UploadAction">
+		
+		<!-- 文件上传拦截器 -->
+		<interceptor-ref name="fileUpload">
+			<param name="maximumSize">5242880</param>
+		</interceptor-ref>
+		<!-- 默认拦截器 -->
+		<interceptor-ref name="defaultStack" />
+		<param name="savePath">/uploadFile</param>
 		<result name="success">/WEB-INF/content/upload-success.jsp</result>
 		
 	</action>
