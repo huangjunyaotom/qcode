@@ -2,17 +2,17 @@ package dao;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-
-
 import entity.Qcode;
 
 public interface QcodeDao {
 
-public Qcode getByUuid(String uuid);
-public void deleteByUuid(Qcode q);
-public void updateFilePathByUuid(Qcode q);
-public void save(Qcode q);
-public List<Qcode> getUnPrinted();
-public void update(Qcode q);
+
+
+//更新,插入方法
+public void saveOrUpdate(Qcode q);
+//删除方法
+public void delete(Qcode q);
+//取值方法,不唯一
+public List<Qcode> getByAll(String param,Object obj);
+public Qcode getByUuid(String code_no);
 }

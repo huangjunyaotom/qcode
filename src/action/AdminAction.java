@@ -1,11 +1,29 @@
 package action;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import com.opensymphony.xwork2.ActionSupport;
 
+import service.QcodeService;
+@Controller
 public class AdminAction extends ActionSupport {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
 	private String tip;
+	@Autowired
+	private QcodeService qcodeService;
+	
+	public QcodeService getQcodeService() {
+		return qcodeService;
+	}
+	public void setQcodeService(QcodeService qcodeService) {
+		this.qcodeService = qcodeService;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -27,15 +45,11 @@ public class AdminAction extends ActionSupport {
 	
 	@Override
 	public String execute() {
-		if(getUsername() == null ||getPassword()==null ) {
-			return "wrong";
+		String result=qcodeService.admin(username, password);
+		if(result.equals("wrong")) {
+			this.setTip("ç™»å½•åæˆ–å¯†ç é”™è¯¯");
 		}
-		if(getUsername().equals("albbjiangxiaohua")&& getPassword().equals("123456")) {
-			return "make";
-		}else{
-			setTip("µÇÂ¼Ãû»òÕßÃÜÂë´íÎó");
-			return "wrong";
-		}
+		return result;
 	
 		
 	}

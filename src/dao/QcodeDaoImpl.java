@@ -2,17 +2,13 @@ package dao;
 
 import java.util.List;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
-import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import entity.Qcode;
-
+@Repository
 public class QcodeDaoImpl  implements QcodeDao {
-	
+	@Autowired
 	private SessionFactory sessionFactory;
 	
 	
@@ -20,59 +16,52 @@ public class QcodeDaoImpl  implements QcodeDao {
 		this.sessionFactory = sessionFactory;
 	}
 
-
-
 	@Override
-	@Transactional(readOnly=true)
-	public Qcode getByUuid(String uuid) {
+	public void saveOrUpdate(Qcode q) {
 		// TODO Auto-generated method stub
-		String hql="from Qcode q where q.code_no = :uuid ";
-		
-		return (Qcode)this.sessionFactory.getCurrentSession()
-				.createQuery(hql).setParameter("uuid", uuid).uniqueResult();
+		this.sessionFactory.getCurrentSession().saveOrUpdate(q);
 	}
 
+
+
 	@Override
-	@Transactional
-	public void deleteByUuid(Qcode q) {
+	public void delete(Qcode q) {
 		// TODO Auto-generated method stub
 		this.sessionFactory.getCurrentSession().delete(q);
 	}
 
-	@Override
-	@Transactional
-	public void updateFilePathByUuid(Qcode q) {
+
+
+
+
+	@SuppressWarnings("unchecked")
+	public List<Qcode> getByAll(String param, Object obj) {
 		// TODO Auto-generated method stub
-		this.sessionFactory.getCurrentSession().update(q);
-	}
-
-	@Override
-	@Transactional
-	public void save(Qcode q) {
-		// TODO Auto-generated method stub
-		this.sessionFactory.getCurrentSession().save(q);
-	}
-
-
-
-	@Override
-	@Transactional
-	public List<Qcode> getUnPrinted() {
-		// TODO Auto-generated method stub
-		return this.sessionFactory.getCurrentSession()
-				.createQuery("from Qcode where is_printed = '0' ")
+		String hql="from Qcode  where :param = :obj ";
+		
+		return (List<Qcode>)this.sessionFactory.getCurrentSession()
+				.createQuery(hql)
+				.setParameter("param", param)
+				.setParameter("obj", obj)
 				.list();
 	}
 
-
-
 	@Override
-	@Transactional
-	public void update(Qcode q) {
+	public Qcode getByUuid(String code_no) {
 		// TODO Auto-generated method stub
-		this.sessionFactory.getCurrentSession().update(q);
+		String hql="from Qcode  where code_no = :obj ";
 		
+		return (Qcode)this.sessionFactory.getCurrentSession()
+				.createQuery(hql)
+				.setParameter("obj", code_no)
+				.uniqueResult();
 	}
+
+
+
+	
+
+
 
 	
 

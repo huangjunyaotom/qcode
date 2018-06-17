@@ -1,35 +1,40 @@
 package action;
 
-import java.io.File;
+import java.util.Map;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionSupport;
-
-import dao.QcodeDao;
-import entity.Qcode;
-
+import service.QcodeService;
+@Controller
 public class QcodeAction extends ActionSupport {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String uuid;
 	
 	private String path;
+	@Autowired
+	private QcodeService qcodeService;
 	
 	
-	private QcodeDao qcodeDao;
-	
+	public QcodeService getQcodeService() {
+		return qcodeService;
+	}
+
+
+	public void setQcodeService(QcodeService qcodeService) {
+		this.qcodeService = qcodeService;
+	}
+
+
 	public QcodeAction() {
 		
 	}
 	
-	public QcodeDao getQcodeDao() {
-		return qcodeDao;
-	}
-
-	public void setQcodeDao(QcodeDao qcodeDao) {
-		this.qcodeDao = qcodeDao;
-	}
-
+	
 	public String getPath() {
 		return path;
 	}
@@ -47,34 +52,9 @@ public class QcodeAction extends ActionSupport {
 	}
 	@Override
 	public String execute() {
-//		Session sess=qcodeDao.getSession();
-//		Transaction tx=sess.beginTransaction();
-		
-		
-		Qcode q=qcodeDao.getByUuid(uuid);
-			
-			if(q!=null){
-				path=q.getFile_path();
-				
-				if(path != null && !path.equals("")){
-					//转发到展示页面
-					File file=new File(path);
-					path=file.getName();
-				
-					return "show";
-					
-				}else{
-					//转发到上传页面
-//					System.out.println("upfile");
-					return "upfile";
-					
-					
-				}
-			}
-			
-//			tx.commit();
-//			sess.close();
-			return "none";
+		Map<String,String> map=qcodeService.qcode(uuid);
+		setPath(map.get("path"));
+		return map.get("result");
 		
 	}
 }

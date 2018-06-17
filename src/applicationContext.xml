@@ -100,8 +100,8 @@
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>    
                  
                 <prop key="hibernate.hbm2ddl.auto">update</prop>    
-                <prop key="hibernate.format_sql">false</prop>   
-                <prop key="hibernate.show_sql">false</prop>    
+                <prop key="hibernate.format_sql">true</prop>   
+                <prop key="hibernate.show_sql">true</prop>    
                    
             </props>    
         </property>    
@@ -114,21 +114,8 @@
 <tx:annotation-driven/>
 
 
-<!-- 配置bean -->
-<bean id="qcodeDao" class="dao.QcodeDaoImpl">
-	<property name="sessionFactory" ref="sessionFactory" />
-</bean>
+<!-- 配置bean的自动扫描 -->
+<context:component-scan base-package="action,service,dao"/>
 
-
-<bean id="qcodeAction" class="action.QcodeAction">
-	<property name="qcodeDao" ref="qcodeDao" />
-	
-</bean>
-<bean id="makeAction" class="action.MakeAction">
-	<property name="qcodeDao" ref="qcodeDao" />
-</bean>
-<bean id="uploadAction" class="action.UploadAction">
-	<property name="qcodeDao" ref="qcodeDao" />
-</bean>
 
 </beans>

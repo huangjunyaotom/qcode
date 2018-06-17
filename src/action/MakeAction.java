@@ -1,27 +1,30 @@
 package action;
 
-import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import com.opensymphony.xwork2.ActionSupport;
 
-import dao.QcodeDao;
-import entity.Qcode;
-
+import service.QcodeService;
+@Controller
 public class MakeAction extends ActionSupport{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer num;
-	
-	
-	
-	private QcodeDao qcodeDao;
-	public QcodeDao getQcodeDao() {
-		return qcodeDao;
+	@Autowired
+	private QcodeService qcodeService;
+
+	public QcodeService getQcodeService() {
+		return qcodeService;
 	}
 
-	public void setQcodeDao(QcodeDao qcodeDao) {
-		this.qcodeDao = qcodeDao;
+
+	public void setQcodeService(QcodeService qcodeService) {
+		this.qcodeService = qcodeService;
 	}
+
 
 	public MakeAction() {
 		
@@ -38,19 +41,7 @@ public class MakeAction extends ActionSupport{
 	
 	public String execute() {
 
-		for(int i=0;i<num;i++) {
-			Qcode q=new Qcode();
-			String uuid=UUID.randomUUID().toString().replace("-", "");
-			q.setCode_no(uuid);
-			q.setIs_printed(0);
-			qcodeDao.save(q);
-			
-		}
-		
-//		tx.commit();
-//		sess.close();
-		
-		return SUCCESS;
+		return qcodeService.makeQcode(num);
 	}
 	
 }

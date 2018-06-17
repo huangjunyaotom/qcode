@@ -1,30 +1,34 @@
 package action;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.util.List;
+import java.util.Map;
 
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import dao.QcodeDao;
-import entity.Qcode;
-
+import service.QcodeService;
+@Controller
 public class DownloadAction extends ActionSupport {
-	private QcodeDao qcodeDao;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private String portAndIndex;
-	public QcodeDao getQcodeDao() {
-		return qcodeDao;
+	@Autowired
+	private QcodeService qcodeService;
+
+	public QcodeService getQcodeService() {
+		return qcodeService;
 	}
 
-	
 
+	public void setQcodeService(QcodeService qcodeService) {
+		this.qcodeService = qcodeService;
+	}
+	
 	public String getPortAndIndex() {
 		return portAndIndex;
 	}
@@ -32,17 +36,12 @@ public class DownloadAction extends ActionSupport {
 	public void setPortAndIndex(String portAndIndex) {
 		this.portAndIndex = portAndIndex;
 	}
-
 	
-
-	public void setQcodeDao(QcodeDao qcodeDao) {
-		this.qcodeDao = qcodeDao;
-	}
 	public DownloadAction() {
 		
 	}
-	private InputStream excelStream;  //输出流变量  
-    private String excelFileName; //下载文件名  
+	private InputStream excelStream;  
+    private String excelFileName; 
   
     public InputStream getExcelStream() {  
         return excelStream;  
@@ -59,46 +58,9 @@ public class DownloadAction extends ActionSupport {
     
     
 	public String execute() throws Exception {
-		/*
-		 * 获取未打印的对象
-		 * 遍历结果集
-		 * 写入流
-		 * 
-		 */
-		List<Qcode> qcodes=qcodeDao.getUnPrinted();
-		
-		/*
-		 * 创建工作表
-		 */
-		XSSFWorkbook workbook = new XSSFWorkbook();
-		XSSFSheet sheet=workbook.createSheet();
-		int i=0;
-		//获取ip
-		InetAddress addr=InetAddress.getLocalHost();
-		String ip=addr.getHostAddress().toString();
-		
-		for(Qcode q:qcodes) {
-			
-			XSSFRow row = sheet.createRow(i);
-			XSSFCell cell = row.createCell(0);
-			cell.setCellValue("http://"+ip+portAndIndex+q.getCode_no());
-			i++;
-		}
-		
-		ByteArrayOutputStream os = new ByteArrayOutputStream();  
-		workbook.write(os);  
-        byte[] fileContent = os.toByteArray();  
-        ByteArrayInputStream is = new ByteArrayInputStream(fileContent); 
-        
-        excelStream = is;
-        
-		excelFileName="address.xlsx";
-		for(Qcode q:qcodes) {
-			q.setIs_printed(1);
-			qcodeDao.update(q);
-		}
-		
-		
-		return SUCCESS;
+		Map<String,Object> map=qcodeService.download(portAndIndex);
+		setExcelStream((InputStream)map.get("excelStream"));
+		setExcelFileName((String)map.get("excelFileName"));
+		return (String)map.get("result");
 	}
 }
