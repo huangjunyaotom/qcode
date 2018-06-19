@@ -2,20 +2,19 @@ package entity;
 
 import java.sql.Timestamp;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 @Entity
-@Table(name="table_code_id")
+@Table(name="table_code_id",indexes= {@Index(name="uuid",columnList="code_no",unique=true)})
 public class Qcode {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String code_no;
 	
 	
