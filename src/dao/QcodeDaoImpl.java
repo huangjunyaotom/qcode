@@ -1,10 +1,12 @@
 package dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import entity.Qcode;
 @Repository
 public class QcodeDaoImpl  implements QcodeDao {
@@ -53,6 +55,17 @@ public class QcodeDaoImpl  implements QcodeDao {
 				.createQuery(hql)
 				.setParameter("obj", code_no)
 				.uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Qcode> getBeforeTime(Date date) {
+		// TODO Auto-generated method stub
+		
+		return (List<Qcode>)this.sessionFactory.getCurrentSession()
+				.createQuery("from Qcode where use_time < :date ")
+				.setParameter("date", date)
+				.list();
 	}
 
 
