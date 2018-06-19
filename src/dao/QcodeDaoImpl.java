@@ -35,14 +35,12 @@ public class QcodeDaoImpl  implements QcodeDao {
 
 
 	@SuppressWarnings("unchecked")
-	public List<Qcode> getByAll(String param, Object obj) {
+	public List<Qcode> getUnPrinted() {
 		// TODO Auto-generated method stub
-		String hql="from Qcode  where :param = :obj ";
+		String hql="from Qcode  where is_printed = 0 ";
 		
 		return (List<Qcode>)this.sessionFactory.getCurrentSession()
 				.createQuery(hql)
-				.setParameter("param", param)
-				.setParameter("obj", obj)
 				.list();
 	}
 

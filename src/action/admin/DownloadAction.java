@@ -1,4 +1,4 @@
-package action;
+package action.admin;
 
 import java.io.InputStream;
 import java.util.Map;

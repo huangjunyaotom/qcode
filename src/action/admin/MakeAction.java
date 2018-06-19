@@ -1,25 +1,21 @@
-package action;
-
-import java.util.Map;
+package action.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
 import com.opensymphony.xwork2.ActionSupport;
+
 import service.QcodeService;
 @Controller
-public class QcodeAction extends ActionSupport {
+public class MakeAction extends ActionSupport{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private String uuid;
-	
-	private String path;
+	private Integer num;
 	@Autowired
 	private QcodeService qcodeService;
-	
-	
+
 	public QcodeService getQcodeService() {
 		return qcodeService;
 	}
@@ -30,31 +26,22 @@ public class QcodeAction extends ActionSupport {
 	}
 
 
-	public QcodeAction() {
+	public MakeAction() {
 		
 	}
+
 	
+	public Integer getNum() {
+		return num;
+	}
+
+	public void setNum(Integer num) {
+		this.num = num;
+	}
 	
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
-	@Override
 	public String execute() {
-		Map<String,String> map=qcodeService.qcode(uuid);
-		setPath(map.get("path"));
-		return map.get("result");
-		
+
+		return qcodeService.makeQcode(num);
 	}
+	
 }

@@ -12,22 +12,22 @@
 	<constant name="struts.multipart.maxSize" value="5242880" />
     
 <package name="huang" extends="struts-default">
-	<action name="admin" class="action.AdminAction">
+	<action name="admin" class="action.admin.AdminAction">
 		<result name="wrong">/WEB-INF/content/admin-wrong.jsp</result>
 		<result name="make">/WEB-INF/content/admin-make.jsp</result>
 	</action>
 	
-	<action name="make" class="action.MakeAction">
+	<action name="make" class="action.admin.MakeAction">
 		<result name="success">/WEB-INF/content/make-success.jsp</result>
 	</action>
 	
-	<action name="qcode" class="action.QcodeAction">
+	<action name="qcode" class="action.user.QcodeAction">
 		<result name="show">/WEB-INF/content/qcode-show.jsp</result>
 		<result name="upfile">/WEB-INF/content/qcode-upfile.jsp</result>
 		<result name="none">/WEB-INF/content/qcode-none.jsp</result>
 	</action>
 	
-	<action name="upload" class="action.UploadAction">
+	<action name="upload" class="action.user.UploadAction">
 		
 		<!-- 文件上传拦截器 -->
 		<interceptor-ref name="fileUpload">
@@ -39,7 +39,7 @@
 		<result name="success">/WEB-INF/content/upload-success.jsp</result>
 		
 	</action>
-	<action name="download" class="action.DownloadAction">
+	<action name="download" class="action.admin.DownloadAction">
 		<param name="portAndIndex">:8080/qcode/qcode?uuid=</param>
 		<result name="success" type="stream">
 			<!-- 获取文件流的方法 -->

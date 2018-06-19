@@ -119,7 +119,7 @@ public class QcodeServiceImpl implements QcodeService{
 		// TODO Auto-generated method stub
 		
 		Map<String,Object> map=new HashMap<String,Object>();
-		List<Qcode> qcodes=qcodeDao.getByAll("is_printed", 0);
+		List<Qcode> qcodes=qcodeDao.getUnPrinted();
 		
 		
 		XSSFWorkbook workbook = new XSSFWorkbook();
