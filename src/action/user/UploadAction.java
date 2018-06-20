@@ -1,17 +1,12 @@
 package action.user;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.sql.Timestamp;
-
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import entity.Qcode;
 import service.QcodeService;
 @Controller
 public class UploadAction extends ActionSupport{

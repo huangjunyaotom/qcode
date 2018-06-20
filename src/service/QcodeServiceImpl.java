@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.net.InetAddress;
 import java.sql.Timestamp;
@@ -18,8 +17,11 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.opensymphony.xwork2.ActionContext;
 
 import dao.QcodeDao;
 import entity.Qcode;
@@ -40,6 +42,7 @@ public class QcodeServiceImpl implements QcodeService{
 			return "wrong";
 		}
 		if(username.equals("albbjiangxiaohua")&& password.equals("123456")) {
+			ActionContext.getContext().getSession().put("status", "login");
 			return "make";
 		}else{
 			
@@ -71,7 +74,7 @@ public class QcodeServiceImpl implements QcodeService{
 		if(q!=null){
 			path=q.getFile_path();
 			
-			if(path != null && !path.equals("")){
+			if(null != path && !path.equals("")){
 				File file=new File(path);
 				path=file.getName();
 				map.put("result", "show");
@@ -110,7 +113,8 @@ public class QcodeServiceImpl implements QcodeService{
 		q.setUse_time(d);
 		qcodeDao.saveOrUpdate(q);
 		
-		
+		is.close();
+		os.close();
 		return "success";
 	}
 	@Override
@@ -146,7 +150,7 @@ public class QcodeServiceImpl implements QcodeService{
 			q.setIs_printed(1);
 			qcodeDao.saveOrUpdate(q);
 		}
-		
+		workbook.close();
 		return map;
 	}
 
