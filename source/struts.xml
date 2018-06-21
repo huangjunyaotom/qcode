@@ -33,7 +33,7 @@
 		<!-- 文件上传拦截器 -->
 		<interceptor-ref name="fileUpload">
 			<param name="maximumSize">5242880</param>
-			<param name="allowedTypes">audio/mpeg,audio/wav,audio/ogg</param>
+			<param name="allowedTypes">audio/mp3,audio/wav,audio/ogg</param>
 		</interceptor-ref>
 		<!-- 默认拦截器 -->
 		<interceptor-ref name="defaultStack" />

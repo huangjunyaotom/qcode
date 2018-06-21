@@ -76,7 +76,7 @@ public class UploadAction extends ActionSupport{
 	
 	@Override
 	public String execute() throws Exception {
-			
+		
 		return qcodeService.upload(uuid, getSavePath(), uploadFileName, upload);
 	}
 	
