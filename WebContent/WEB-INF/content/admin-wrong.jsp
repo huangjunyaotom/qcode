@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html5>
 <html>
 <head>
@@ -11,12 +12,9 @@
 <label for="username">用户名:</label><input type="text" name="username"/>
 <label for="passwird">密码:</label><input type="password" name="password"/>
 <input type="submit" value="登录"/>
-<%
-String tip=(String)request.getAttribute("tip");
-if(tip !=null){
-	out.println(tip);
-}
-%>
+<br/>
+<s:fielderror/>
+
 </form>
 </body>
 </html>

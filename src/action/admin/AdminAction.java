@@ -14,7 +14,6 @@ public class AdminAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
-	private String tip;
 	@Autowired
 	private QcodeService qcodeService;
 	
@@ -36,18 +35,14 @@ public class AdminAction extends ActionSupport {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getTip() {
-		return tip;
-	}
-	public void setTip(String tip) {
-		this.tip = tip;
-	}
+
 	
 	@Override
 	public String execute() {
 		String result=qcodeService.admin(username, password);
 		if(result.equals("wrong")) {
-			this.setTip("登录名或密码错误");
+			addFieldError("tip", "登录名或密码错误");
+			
 		}
 		return result;
 	

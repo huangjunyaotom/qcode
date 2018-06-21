@@ -9,10 +9,12 @@
     <constant name="struts.enable.DynamicMethodInvocation" value="false" />
     <constant name="struts.devMode" value="true" />
 	<constant name="struts.multipart.maxSize" value="5242880" />
+	<constant name="struts.custom.i18n.resources" value="mess" />
     
 <package name="huang" extends="struts-default">
 	<action name="admin" class="action.admin.AdminAction">
 		<result name="wrong">/WEB-INF/content/admin-wrong.jsp</result>
+		<result name="input">/WEB-INF/content/admin-wrong.jsp</result>
 		<result name="make">/WEB-INF/content/admin-make.jsp</result>
 	</action>
 	
@@ -31,12 +33,13 @@
 		<!-- 文件上传拦截器 -->
 		<interceptor-ref name="fileUpload">
 			<param name="maximumSize">5242880</param>
+			<param name="allowedTypes">audio/mpeg,audio/wav,audio/ogg</param>
 		</interceptor-ref>
 		<!-- 默认拦截器 -->
 		<interceptor-ref name="defaultStack" />
 		<param name="savePath">/uploadFile</param>
 		<result name="success">/WEB-INF/content/upload-success.jsp</result>
-		
+		<result name="input">/WEB-INF/content/qcode-upfile.jsp</result>
 	</action>
 	<action name="download" class="action.admin.DownloadAction">
 		<param name="portAndIndex">:8080/qcode/qcode?uuid=</param>

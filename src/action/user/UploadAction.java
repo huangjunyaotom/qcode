@@ -16,6 +16,16 @@ public class UploadAction extends ActionSupport{
 	private static final long serialVersionUID = 1L;
 	private File upload;
 	private String uploadFileName;
+	private String uploadContentType;
+	public String getUploadContentType() {
+		return uploadContentType;
+	}
+
+
+	public void setUploadContentType(String uploadContentType) {
+		this.uploadContentType = uploadContentType;
+	}
+
 	private String savePath;
 	private String uuid;
 	
@@ -69,5 +79,6 @@ public class UploadAction extends ActionSupport{
 			
 		return qcodeService.upload(uuid, getSavePath(), uploadFileName, upload);
 	}
-
+	
+	
 }
